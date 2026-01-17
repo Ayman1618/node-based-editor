@@ -1,6 +1,7 @@
 // store.js
 
 import { create } from "zustand";
+import { shallow } from "zustand/shallow";
 import {
     addEdge,
     applyNodeChanges,
@@ -11,8 +12,9 @@ import {
 export const useStore = create((set, get) => ({
     nodes: [],
     edges: [],
+    nodeIDs: {}, // Initialize nodeIDs object
     getNodeID: (type) => {
-        const newIDs = {...get().nodeIDs};
+        const newIDs = {...(get().nodeIDs || {})};
         if (newIDs[type] === undefined) {
             newIDs[type] = 0;
         }

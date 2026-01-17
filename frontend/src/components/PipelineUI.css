@@ -1,0 +1,73 @@
+.pipeline-ui-wrapper {
+  flex: 1; /* 👈 THIS GIVES IT HEIGHT */
+  display: flex;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  min-height: 0;
+}
+
+.pipeline-ui-container {
+  width: 100%;
+  height: 100%; /* 👈 EXPLICIT HEIGHT FOR REACTFLOW */
+  background: #fafafa;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ReactFlow will get explicit pixel dimensions via inline styles */
+
+/* ReactFlow customizations */
+.react-flow__node {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #667eea;
+  background: white;
+}
+
+.react-flow__handle-left {
+  left: -5px;
+}
+
+.react-flow__handle-right {
+  right: -5px;
+}
+
+.react-flow__edge-path {
+  stroke: #667eea;
+  stroke-width: 2;
+}
+
+.react-flow__connection-line {
+  stroke: #667eea;
+  stroke-width: 2;
+}
+
+.react-flow__controls {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+.react-flow__controls-button {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.react-flow__controls-button:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.react-flow__minimap {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
