@@ -1,0 +1,36 @@
+.clear-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clear-button:hover {
+  background: #fff;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+  transform: translateY(-1px);
+}
+
+.clear-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clear-button-icon {
+  font-size: 16px;
+}
+
+.clear-button-text {
+  letter-spacing: 0.3px;
+}

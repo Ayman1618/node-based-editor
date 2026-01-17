@@ -13,6 +13,13 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.app-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
 .app-title {
   margin: 0;
   font-size: 28px;
