@@ -1,22 +1,14 @@
-// textNode.js
-
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from './BaseNode';
 
-/**
- * Validates if a string is a valid JavaScript identifier
- */
+// Validates JavaScript identifier format
 const isValidIdentifier = (str) => {
-  // JavaScript identifier regex: starts with letter, $, or _, followed by alphanumeric, $, or _
   const identifierRegex = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
   return identifierRegex.test(str);
 };
 
-/**
- * Parses text for variables in {{variableName}} format
- * Returns array of valid variable names
- */
+// Parses {{variableName}} patterns from text and returns unique valid identifiers
 const parseVariables = (text) => {
   const variableRegex = /\{\{([^}]+)\}\}/g;
   const matches = [];
@@ -34,14 +26,13 @@ const parseVariables = (text) => {
   return matches;
 };
 
+// Text node with dynamic handles based on {{variable}} parsing and auto-resizing textarea
 export const TextNode = ({ id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
   const textareaRef = useRef(null);
 
-  // Parse variables from text
   const variables = useMemo(() => parseVariables(currText), [currText]);
 
-  // Auto-resize textarea based on content
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -54,11 +45,9 @@ export const TextNode = ({ id, data }) => {
     setCurrText(e.target.value);
   };
 
-  // Dynamic handles: one target handle for each variable, plus source output handle
   const handles = useMemo(() => {
     const handleArray = [];
     
-    // Create target handles for each variable
     variables.forEach((variable, index) => {
       handleArray.push({
         type: 'target',
@@ -70,7 +59,6 @@ export const TextNode = ({ id, data }) => {
       });
     });
     
-    // Add source output handle
     handleArray.push({
       type: 'source',
       position: Position.Right,
@@ -80,9 +68,8 @@ export const TextNode = ({ id, data }) => {
     return handleArray;
   }, [id, variables]);
 
-  // Calculate node height based on content
   const nodeHeight = useMemo(() => {
-    const baseHeight = 120; // Base height for title and padding
+    const baseHeight = 120;
     const textHeight = textareaRef.current?.scrollHeight || 60;
     const variableInfoHeight = variables.length > 0 ? 30 : 0;
     return Math.max(100, baseHeight + textHeight + variableInfoHeight);

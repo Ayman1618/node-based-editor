@@ -1,19 +1,6 @@
-// BaseNode.js
-// Base abstraction for all node components
-
 import { Handle, Position } from 'reactflow';
 
-/**
- * BaseNode - A flexible base component for creating node types
- * 
- * @param {string} id - Unique identifier for the node
- * @param {object} data - Node data/properties
- * @param {string} title - Title to display at the top of the node
- * @param {ReactNode} children - Content to render inside the node body
- * @param {Array} handles - Array of handle configurations
- * @param {object} style - Optional custom styles for the node container
- * @param {string} className - Optional CSS class name
- */
+// Base component for all node types - provides structure, styling, and handles
 export const BaseNode = ({ 
   id, 
   data = {}, 
@@ -41,7 +28,6 @@ export const BaseNode = ({
       className={`base-node ${className}`}
       style={defaultStyle}
     >
-      {/* Title section */}
       {title && (
         <div style={{
           fontWeight: '600',
@@ -55,12 +41,10 @@ export const BaseNode = ({
         </div>
       )}
 
-      {/* Content body */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {children}
       </div>
 
-      {/* Render all handles */}
       {handles.map((handle, index) => (
         <Handle
           key={`${handle.id || index}`}
@@ -74,9 +58,7 @@ export const BaseNode = ({
   );
 };
 
-/**
- * Helper function to create a text input field
- */
+// Reusable field components for node inputs
 export const NodeTextField = ({ 
   label, 
   value, 
@@ -109,9 +91,6 @@ export const NodeTextField = ({
   );
 };
 
-/**
- * Helper function to create a select dropdown field
- */
 export const NodeSelectField = ({ 
   label, 
   value, 
@@ -149,9 +128,6 @@ export const NodeSelectField = ({
   );
 };
 
-/**
- * Helper function to create a textarea field
- */
 export const NodeTextareaField = ({ 
   label, 
   value, 

@@ -1,39 +1,36 @@
-// llmNode.js
-
 import { Position } from 'reactflow';
+import { createNode } from './createNode';
 import { BaseNode } from './BaseNode';
 
-export const LLMNode = ({ id, data }) => {
-  const handles = [
+export const LLMNode = createNode({
+  title: 'LLM',
+  fields: [],
+  handles: [
     {
       type: 'target',
       position: Position.Left,
-      id: `${id}-system`,
+      name: 'system',
       style: { top: `${100/3}%` }
     },
     {
       type: 'target',
       position: Position.Left,
-      id: `${id}-prompt`,
+      name: 'prompt',
       style: { top: `${200/3}%` }
     },
     {
       type: 'source',
       position: Position.Right,
-      id: `${id}-response`
+      name: 'response'
     }
-  ];
-
-  return (
-    <BaseNode
-      id={id}
-      data={data}
-      title="LLM"
-      handles={handles}
-    >
-      <div style={{ fontSize: '12px', color: '#666' }}>
-        Large Language Model
-      </div>
-    </BaseNode>
-  );
-}
+  ],
+  customContent: ({ id, data, generatedHandles, title }) => {
+    return (
+      <BaseNode id={id} data={data} title={title} handles={generatedHandles}>
+        <div style={{ fontSize: '12px', color: '#666' }}>
+          Large Language Model
+        </div>
+      </BaseNode>
+    );
+  }
+});

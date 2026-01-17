@@ -1,60 +1,45 @@
-// filterNode.js
-
-import { useState } from 'react';
 import { Position } from 'reactflow';
-import { BaseNode, NodeSelectField, NodeTextField } from './BaseNode';
+import { createNode } from './createNode';
 
-export const FilterNode = ({ id, data }) => {
-  const [filterCriteria, setFilterCriteria] = useState(data?.filterCriteria || 'contains');
-  const [filterValue, setFilterValue] = useState(data?.filterValue || '');
-
-  const handleCriteriaChange = (e) => {
-    setFilterCriteria(e.target.value);
-  };
-
-  const handleValueChange = (e) => {
-    setFilterValue(e.target.value);
-  };
-
-  const handles = [
+export const FilterNode = createNode({
+  title: 'Filter',
+  fields: [
+    {
+      key: 'filterCriteria',
+      type: 'select',
+      label: 'Filter By',
+      defaultValue: 'contains',
+      options: [
+        { value: 'contains', label: 'Contains' },
+        { value: 'startsWith', label: 'Starts With' },
+        { value: 'endsWith', label: 'Ends With' },
+        { value: 'equals', label: 'Equals' },
+        { value: 'greaterThan', label: 'Greater Than' },
+        { value: 'lessThan', label: 'Less Than' }
+      ]
+    },
+    {
+      key: 'filterValue',
+      type: 'text',
+      label: 'Filter Value',
+      defaultValue: '',
+      placeholder: 'Enter filter value'
+    }
+  ],
+  handles: [
     {
       type: 'target',
       position: Position.Left,
-      id: `${id}-input`
+      name: 'input'
     },
     {
       type: 'source',
       position: Position.Right,
-      id: `${id}-output`
+      name: 'output'
     }
-  ];
-
-  return (
-    <BaseNode
-      id={id}
-      data={data}
-      title="Filter"
-      handles={handles}
-    >
-      <NodeSelectField
-        label="Filter By"
-        value={filterCriteria}
-        onChange={handleCriteriaChange}
-        options={[
-          { value: 'contains', label: 'Contains' },
-          { value: 'startsWith', label: 'Starts With' },
-          { value: 'endsWith', label: 'Ends With' },
-          { value: 'equals', label: 'Equals' },
-          { value: 'greaterThan', label: 'Greater Than' },
-          { value: 'lessThan', label: 'Less Than' }
-        ]}
-      />
-      <NodeTextField
-        label="Filter Value"
-        value={filterValue}
-        onChange={handleValueChange}
-        placeholder="Enter filter value"
-      />
-    </BaseNode>
-  );
-}
+  ],
+  getInitialData: (id, data) => ({
+    filterCriteria: data?.filterCriteria || 'contains',
+    filterValue: data?.filterValue || ''
+  })
+});

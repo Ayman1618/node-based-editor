@@ -1,65 +1,74 @@
-// conditionNode.js
-
-import { useState } from 'react';
 import { Position } from 'reactflow';
-import { BaseNode, NodeSelectField } from './BaseNode';
+import { createNode } from './createNode';
+import { BaseNode } from './BaseNode';
+import { NodeSelectField } from './BaseNode';
 
-export const ConditionNode = ({ id, data }) => {
-  const [operator, setOperator] = useState(data?.operator || 'equals');
-
-  const handleOperatorChange = (e) => {
-    setOperator(e.target.value);
-  };
-
-  const handles = [
+export const ConditionNode = createNode({
+  title: 'Condition',
+  fields: [
+    {
+      key: 'operator',
+      type: 'select',
+      label: 'Operator',
+      defaultValue: 'equals',
+      options: [
+        { value: 'equals', label: 'Equals' },
+        { value: 'notEquals', label: 'Not Equals' },
+        { value: 'greaterThan', label: 'Greater Than' },
+        { value: 'lessThan', label: 'Less Than' },
+        { value: 'contains', label: 'Contains' }
+      ]
+    }
+  ],
+  handles: [
     {
       type: 'target',
       position: Position.Left,
-      id: `${id}-value1`,
+      name: 'value1',
       style: { top: '30%' }
     },
     {
       type: 'target',
       position: Position.Left,
-      id: `${id}-value2`,
+      name: 'value2',
       style: { top: '70%' }
     },
     {
       type: 'source',
       position: Position.Right,
-      id: `${id}-true`,
+      name: 'true',
       style: { top: '30%' }
     },
     {
       type: 'source',
       position: Position.Right,
-      id: `${id}-false`,
+      name: 'false',
       style: { top: '70%' }
     }
-  ];
-
-  return (
-    <BaseNode
-      id={id}
-      data={data}
-      title="Condition"
-      handles={handles}
-    >
-      <NodeSelectField
-        label="Operator"
-        value={operator}
-        onChange={handleOperatorChange}
-        options={[
-          { value: 'equals', label: 'Equals' },
-          { value: 'notEquals', label: 'Not Equals' },
-          { value: 'greaterThan', label: 'Greater Than' },
-          { value: 'lessThan', label: 'Less Than' },
-          { value: 'contains', label: 'Contains' }
-        ]}
-      />
-      <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
-        Left: inputs | Right: true/false
-      </div>
-    </BaseNode>
-  );
-}
+  ],
+  getInitialData: (id, data) => ({
+    operator: data?.operator || 'equals'
+  }),
+  customContent: ({ id, data, fieldStates, generatedHandles, title }) => {
+    const { value: operator, setValue: setOperator } = fieldStates.operator;
+    return (
+      <BaseNode id={id} data={data} title={title} handles={generatedHandles}>
+        <NodeSelectField
+          label="Operator"
+          value={operator}
+          onChange={(e) => setOperator(e.target.value)}
+          options={[
+            { value: 'equals', label: 'Equals' },
+            { value: 'notEquals', label: 'Not Equals' },
+            { value: 'greaterThan', label: 'Greater Than' },
+            { value: 'lessThan', label: 'Less Than' },
+            { value: 'contains', label: 'Contains' }
+          ]}
+        />
+        <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
+          Left: inputs | Right: true/false
+        </div>
+      </BaseNode>
+    );
+  }
+});
