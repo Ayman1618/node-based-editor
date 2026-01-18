@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { Position } from 'reactflow';
 import { BaseNode, NodeTextField, NodeSelectField, NodeTextareaField } from './BaseNode';
 
 // Factory function that creates node components from declarative configuration
@@ -33,7 +32,7 @@ export const createNode = (config) => {
         ...handle,
         id: handle.id || `${id}-${handle.name || handle.type}`,
       }));
-    }, [id, handles]);
+    }, [id]);
 
     if (customContent) {
       return customContent({ id, data, fieldStates, generatedHandles, title, style });
