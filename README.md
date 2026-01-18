@@ -114,7 +114,7 @@ Frontend will run on `http://localhost:3000`
 ```bash
 cd backend
 pip install -r requirements.txt
-python -m uvicorn main:app --reload
+python3 -m uvicorn main:app --reload
 ```
 
 Backend will run on `http://localhost:8000`
