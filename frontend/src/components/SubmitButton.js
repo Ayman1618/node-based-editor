@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useStore } from '../store';
 import { shallow } from 'zustand/shallow';
+import { ResultModal } from './ResultModal';
 import './SubmitButton.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -13,6 +14,8 @@ const selector = (state) => ({
 
 export const SubmitButton = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [result, setResult] = useState(null);
   const { nodes, edges } = useStore(selector, shallow);
 
   const handleSubmit = async (e) => {
@@ -56,21 +59,10 @@ export const SubmitButton = () => {
       }
 
       const result = await response.json();
-
-      // Display user-friendly alert with the results
-      const message = `
-Pipeline Analysis Results:
-
-📊 Number of Nodes: ${result.num_nodes}
-🔗 Number of Edges: ${result.num_edge}
-${result.is_dag ? '✅' : '❌'} Is DAG: ${result.is_dag ? 'Yes' : 'No'}
-
-${result.is_dag 
-  ? 'This pipeline is a valid Directed Acyclic Graph!' 
-  : 'Warning: This pipeline contains cycles and is not a valid DAG.'}
-      `.trim();
-
-      alert(message);
+      
+      // Display results in a user-friendly modal
+      setResult(result);
+      setShowModal(true);
 
     } catch (error) {
       console.error('Error submitting pipeline:', error);
@@ -81,17 +73,27 @@ ${result.is_dag
   };
 
   return (
-    <div className="submit-container">
-      <button 
-        className="submit-button" 
-        type="submit"
-        onClick={handleSubmit}
-        disabled={isLoading}
-      >
-        <span className="submit-button-text">
-          {isLoading ? 'Processing...' : 'Submit Pipeline'}
-        </span>
-      </button>
-    </div>
+    <>
+      <div className="submit-container">
+        <button 
+          className="submit-button" 
+          type="submit"
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          <span className="submit-button-text">
+            {isLoading ? 'Processing...' : 'Submit Pipeline'}
+          </span>
+        </button>
+      </div>
+      
+      {result && (
+        <ResultModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          result={result}
+        />
+      )}
+    </>
   );
 }
