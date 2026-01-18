@@ -75,13 +75,31 @@ export const TextNode = ({ id, data }) => {
     return Math.max(100, baseHeight + textHeight + variableInfoHeight);
   }, [variables.length]);
 
+  const nodeWidth = useMemo(() => {
+    if (!currText) return 250;
+    
+    const minWidth = 200;
+    const maxWidth = 450;
+    const padding = 40;
+    const charWidth = 7.2;
+    
+    const lines = currText.split('\n');
+    const longestLine = lines.reduce((longest, line) => 
+      line.length > longest.length ? line : longest, '');
+    
+    const estimatedWidth = longestLine.length * charWidth + padding;
+    const calculatedWidth = Math.min(maxWidth, Math.max(minWidth, estimatedWidth));
+    
+    return calculatedWidth;
+  }, [currText]);
+
   return (
     <BaseNode
       id={id}
       data={data}
       title="Text"
       handles={handles}
-      style={{ minHeight: `${nodeHeight}px`, width: 250 }}
+      style={{ minHeight: `${nodeHeight}px`, width: `${nodeWidth}px` }}
     >
       <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <span style={{ fontSize: '12px', color: '#666', fontWeight: '500' }}>
@@ -99,11 +117,13 @@ export const TextNode = ({ id, data }) => {
             borderRadius: '4px',
             fontSize: '12px',
             outline: 'none',
-            resize: 'vertical',
+            resize: 'none',
             fontFamily: 'inherit',
             transition: 'border-color 0.2s',
             minHeight: '60px',
+            width: '100%',
             overflow: 'hidden',
+            boxSizing: 'border-box',
           }}
           onFocus={(e) => e.target.style.borderColor = '#4a90e2'}
           onBlur={(e) => e.target.style.borderColor = '#d0d0d0'}
