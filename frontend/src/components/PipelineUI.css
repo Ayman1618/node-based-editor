@@ -1,21 +1,25 @@
 .pipeline-ui-wrapper {
-  flex: 1; /* 👈 THIS GIVES IT HEIGHT */
+  flex: 1;
   display: flex;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.03);
-  margin: 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 18px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1), 
+              0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+              inset 0 1px 2px rgba(255, 255, 255, 0.15);
   min-height: 0;
+  position: relative;
 }
 
 .pipeline-ui-container {
   width: 100%;
-  height: 100%; /* 👈 EXPLICIT HEIGHT FOR REACTFLOW */
-  background: #fafafa;
-  border-radius: 12px;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 20px;
   overflow: hidden;
   position: relative;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
 }
 
 /* ReactFlow will get explicit pixel dimensions via inline styles */
@@ -26,48 +30,71 @@
 }
 
 .react-flow__handle {
-  width: 10px;
-  height: 10px;
-  border: 2px solid #667eea;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #667eea;
   background: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+  transition: all 0.2s ease;
+}
+
+.react-flow__handle:hover {
+  border-color: #764ba2;
+  transform: scale(1.15);
+  box-shadow: 0 3px 12px rgba(102, 126, 234, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.9) inset;
 }
 
 .react-flow__handle-left {
-  left: -5px;
+  left: -6px;
 }
 
 .react-flow__handle-right {
-  right: -5px;
+  right: -6px;
 }
 
 .react-flow__edge-path {
   stroke: #667eea;
-  stroke-width: 2;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 1px 2px rgba(102, 126, 234, 0.2));
+  transition: stroke-width 0.2s ease;
+}
+
+.react-flow__edge-path:hover {
+  stroke-width: 3;
 }
 
 .react-flow__connection-line {
   stroke: #667eea;
-  stroke-width: 2;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 1px 2px rgba(102, 126, 234, 0.2));
 }
 
 .react-flow__controls {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 
+              0 0 0 1px rgba(0, 0, 0, 0.04),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
 }
 
 .react-flow__controls-button {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
 }
 
 .react-flow__controls-button:hover {
   background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
 }
 
 .react-flow__minimap {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 
+              0 0 0 1px rgba(0, 0, 0, 0.04),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
 }

@@ -1,4 +1,6 @@
-import { Handle, Position } from 'reactflow';
+import { Handle } from 'reactflow';
+import { useStore } from '../../store';
+import './BaseNode.css';
 
 // Base component for all node types - provides structure, styling, and handles
 export const BaseNode = ({ 
@@ -10,6 +12,26 @@ export const BaseNode = ({
   style = {},
   className = ''
 }) => {
+  const onNodesChange = useStore((state) => state.onNodesChange);
+  const onEdgesChange = useStore((state) => state.onEdgesChange);
+  const edges = useStore((state) => state.edges);
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    
+    // Remove the node
+    onNodesChange([{ type: 'remove', id }]);
+    
+    // Remove all edges connected to this node
+    const edgesToRemove = edges
+      .filter(edge => edge.source === id || edge.target === id)
+      .map(edge => ({ type: 'remove', id: edge.id }));
+    
+    if (edgesToRemove.length > 0) {
+      onEdgesChange(edgesToRemove);
+    }
+  };
+
   const defaultStyle = {
     width: 200,
     minHeight: 80,
@@ -20,6 +42,7 @@ export const BaseNode = ({
     display: 'flex',
     flexDirection: 'column',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    position: 'relative',
     ...style
   };
 
@@ -28,6 +51,17 @@ export const BaseNode = ({
       className={`base-node ${className}`}
       style={defaultStyle}
     >
+      <button
+        className="node-delete-button"
+        onClick={handleDelete}
+        title="Delete node"
+        type="button"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.5 3.5H10.5M11.0833 3.5V11.6667C11.0833 12.125 10.7083 12.5 10.25 12.5H3.75C3.29167 12.5 2.91667 12.125 2.91667 11.6667V3.5M4.66667 3.5V2.33333C4.66667 1.875 5.04167 1.5 5.5 1.5H8.5C8.95833 1.5 9.33333 1.875 9.33333 2.33333V3.5M5.83333 6.41667V9.58333M8.16667 6.41667V9.58333" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+
       {title && (
         <div style={{
           fontWeight: '600',

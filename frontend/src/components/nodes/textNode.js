@@ -28,7 +28,7 @@ const parseVariables = (text) => {
 
 // Text node with dynamic handles based on {{variable}} parsing and auto-resizing textarea
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(data?.text || '{{input}}');
+  const [currText, setCurrText] = useState(data?.text);
   const textareaRef = useRef(null);
 
   const variables = useMemo(() => parseVariables(currText), [currText]);
@@ -73,7 +73,7 @@ export const TextNode = ({ id, data }) => {
     const textHeight = textareaRef.current?.scrollHeight || 60;
     const variableInfoHeight = variables.length > 0 ? 30 : 0;
     return Math.max(100, baseHeight + textHeight + variableInfoHeight);
-  }, [currText, variables.length]);
+  }, [variables.length]);
 
   return (
     <BaseNode
